@@ -22,6 +22,18 @@ jobs:
         java-version: '17'
         cache: 'gradle'
 
+    # TENTO KROK PRIDAJ SEM:
+    - name: Fix Gradle Wrapper (ak chýba .jar)
+      run: |
+        mkdir -p gradle/wrapper
+        wget https://raw.githubusercontent.com/gradle/gradle/v8.2.2/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
+
+    - name: Povolenie spustenia gradlew
+      run: chmod +x gradlew
+
+    - name: Build s Gradle
+      run: ./gradlew assembleDebug
+
     - name: Povolenie spustenia gradlew
       run: chmod +x gradlew
 
