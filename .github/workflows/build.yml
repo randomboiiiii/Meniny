@@ -23,10 +23,10 @@ jobs:
         cache: 'gradle'
 
     # TENTO KROK PRIDAJ SEM:
-    - name: Fix Gradle Wrapper (ak chýba .jar)
+    - name: Fix Gradle Wrapper (stiahnutie .jar)
       run: |
         mkdir -p gradle/wrapper
-        wget https://raw.githubusercontent.com/gradle/gradle/v8.2.2/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
+        wget https://github.com/gradle/gradle/raw/main/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
 
     - name: Povolenie spustenia gradlew
       run: chmod +x gradlew
