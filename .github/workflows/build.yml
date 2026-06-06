@@ -5,13 +5,13 @@ on:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
-  workflow_dispatch: # Umožní ti spustiť build aj manuálne kliknutím na tlačidlo
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
- steps:
+    steps:
     - name: Checkout kódu
       uses: actions/checkout@v4
 
@@ -21,17 +21,8 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    # TENTO KROK TERAZ POUŽIJEME:
     - name: Vygeneruj chýbajúci Gradle Wrapper
-      run: jar cfe gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain -C . .
-
-    - name: Povolenie spustenia gradlew
-      run: chmod +x gradlew
-    - name: Povolenie spustenia gradlew
-      run: chmod +x gradlew
-
-    - name: Build s Gradle
-      run: ./gradlew assembleDebug
+      run: gradle wrapper
 
     - name: Povolenie spustenia gradlew
       run: chmod +x gradlew
