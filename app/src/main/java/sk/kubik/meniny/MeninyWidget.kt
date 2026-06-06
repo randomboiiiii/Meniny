@@ -30,12 +30,11 @@ class MeninyWidget : AppWidgetProvider() {
             val cal = Calendar.getInstance(SK)
             val key = SimpleDateFormat("MM-dd", SK).format(cal.time)
 
-            // Deň v týždni s veľkým prvým písmenom
-            val dayName = SimpleDateFormat("EEEE", SK).format(cal.time)
-                .replaceFirstChar { it.titlecase(SK) }
-            // Dátum napr. "6. júna 2026"
+            // Bezpečné formátovanie pre Android 14
+            val rawDayName = SimpleDateFormat("EEEE", SK).format(cal.time)
+            val dayName = rawDayName.substring(0, 1).uppercase(SK) + rawDayName.substring(1)
+            
             val dateStr = SimpleDateFormat("d. MMMM yyyy", SK).format(cal.time)
-
             val meniny = Meniny.forKey(key)
 
             val views = RemoteViews(context.packageName, R.layout.widget_meniny)
@@ -44,12 +43,13 @@ class MeninyWidget : AppWidgetProvider() {
             views.setTextViewText(R.id.tv_meniny_label, "Meniny má")
             views.setTextViewText(R.id.tv_meniny, meniny)
 
-            // Klik = manuálny refresh
+            // Úprava pre Android 14 - pridanie explicitného cieľa
             val intent = Intent(context, MeninyWidget::class.java).apply {
                 action = ACTION_UPDATE
+                package = context.packageName // TOTO JE KRITICKÉ PRE ANDROID 14
             }
             val pi = PendingIntent.getBroadcast(
-                context, 0, intent,
+                context, id, intent, // Použijeme ID widgetu namiesto 0
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
             views.setOnClickPendingIntent(R.id.widget_root, pi)
