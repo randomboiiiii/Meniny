@@ -22,7 +22,7 @@ jobs:
         java-version: '17'
 
     - name: Vygeneruj chýbajúci Gradle Wrapper
-      run: gradle wrapper
+      run: gradle wrapper --gradle-version 8.2
 
     - name: Povolenie spustenia gradlew
       run: chmod +x gradlew
