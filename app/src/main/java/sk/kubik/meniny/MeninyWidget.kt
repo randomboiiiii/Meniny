@@ -46,7 +46,7 @@ class MeninyWidget : AppWidgetProvider() {
             // Úprava pre Android 14 - pridanie explicitného cieľa
             val intent = Intent(context, MeninyWidget::class.java).apply {
                 action = ACTION_UPDATE
-                package = context.packageName // TOTO JE KRITICKÉ PRE ANDROID 14
+                setPackage(context.packageName) // Bezpečnejší zápis pre Kotlin
             }
             val pi = PendingIntent.getBroadcast(
                 context, id, intent, // Použijeme ID widgetu namiesto 0
